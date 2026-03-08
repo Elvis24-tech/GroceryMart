@@ -23,7 +23,7 @@ const Products = () => {
 
     // Beverages
     {id:13, name:"Orange Juice", price:130, category:"Beverages", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkDlj_8JhG_6hrg2stlttBR14Xr_dO3Wsifw&s"},
-    {id:14, name:"Soda", price:100, category:"Beverages", image:"https://t4.ftcdn.net/jpg/09/10/09/75/360_F_910097561_8uUqHdglYYAPZQKWeH6VGJHHrST4u3OI.jpg"},
+    {id:14, name:"Soda", price:100, category:"Beverages", image:"https://www.tasteofhome.com/wp-content/uploads/2023/04/photo22-sodas.jpg"},
     {id:15, name:"Coffee", price:180, category:"Beverages", image:"https://insanelygoodrecipes.com/wp-content/uploads/2020/07/Cup-Of-Creamy-Coffee.png"},
     {id:16, name:"Tea", price:120, category:"Beverages", image:"https://cdn.gaiagoodhealth.com/wp-content/uploads/2024/08/07141124/green-tea-scaled.jpg"},
   ];

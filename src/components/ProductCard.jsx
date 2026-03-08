@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
@@ -8,18 +9,24 @@ const ProductCard = ({ product }) => {
   const handleAdd = () => {
     addToCart(product);
     setAdded(true);
-    setTimeout(() => setAdded(false), 1500); 
+    setTimeout(() => setAdded(false), 1500); // hide toast after 1.5s
   };
 
   return (
     <div className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg flex flex-col relative">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="h-40 w-full object-cover rounded mb-3"
-      />
-      <h2 className="font-bold text-lg">{product.name}</h2>
+      
+      {/* Clickable image and title to go to product details */}
+      <Link to={`/products/${product.id}`} className="cursor-pointer">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-40 w-full object-cover rounded mb-3"
+        />
+        <h2 className="font-bold text-lg">{product.name}</h2>
+      </Link>
+
       <p className="text-green-600 font-semibold mb-3">KES {product.price}</p>
+
       <button
         onClick={handleAdd}
         className="bg-green-600 text-white py-2 rounded hover:bg-green-700 mt-auto transition"
