@@ -10,18 +10,22 @@ import Checkout from "./pages/Checkout";
 function App() {
   return (
     <BrowserRouter>
+      <div className="flex flex-col min-h-screen">
 
-      <Navbar />
+        <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Routes>
+        <main className="grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+          </Routes>
+        </main>
 
-      <Footer />
+        <Footer />
 
+      </div>
     </BrowserRouter>
   );
 }
