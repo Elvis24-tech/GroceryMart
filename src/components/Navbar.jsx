@@ -53,7 +53,7 @@ const Navbar = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleSearch}
-        className="px-3 py-1 rounded text-black"
+        className="px-3 py-1 rounded text-green-900 bg-amber-100 placeholder-green-700 border-2 border-amber-300 focus:outline-none focus:border-amber-400"
       />
 
     </nav>
