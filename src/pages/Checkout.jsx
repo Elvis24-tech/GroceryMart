@@ -42,7 +42,7 @@ const Checkout = () => {
       console.log("STK Push response:", data);
 
       if (data.ResponseCode === "0") {
-        setSuccess("✅ STK Push initiated! Check your phone for the payment prompt.");
+        setSuccess("✅ Mpesa Prompt Success! Check your phone for the payment prompt.");
         clearCart();
         setPhone("");
       } else {
