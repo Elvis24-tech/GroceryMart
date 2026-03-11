@@ -6,19 +6,18 @@ const Checkout = () => {
   const { cart, clearCart, totalAmount } = useContext(CartContext);
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); // For inline error messages
-  const [success, setSuccess] = useState(""); // For success message
+  const [error, setError] = useState(""); 
+  const [message, setMessage] = useState(""); 
 
   const handlePayNow = async () => {
     setError("");
-    setSuccess("");
+    setMessage("");
 
     if (cart.length === 0) {
       setError("Your cart is empty!");
       return;
     }
 
-    // Remove non-digit characters
     const cleanPhone = phone.replace(/\D/g, "");
 
     if (!/^254\d{9}$/.test(cleanPhone)) {
@@ -27,14 +26,12 @@ const Checkout = () => {
     }
 
     setLoading(true);
+    setMessage("⏳ Initiating Mpesa payment... Check your phone.");
 
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/mpesa/stkpush/",
-        {
-          phone: cleanPhone,
-          amount: totalAmount,
-        },
+        { phone: cleanPhone, amount: totalAmount },
         { headers: { "Content-Type": "application/json" } }
       );
 
@@ -42,15 +39,19 @@ const Checkout = () => {
       console.log("STK Push response:", data);
 
       if (data.ResponseCode === "0") {
-        setSuccess("✅ Mpesa Prompt Success! Check your phone for the payment prompt.");
-        clearCart();
-        setPhone("");
+        setMessage(
+          `✅ STK Push sent! Please approve payment on your phone to complete the transaction.\nTotal: KES ${totalAmount}`
+        );
+        setTimeout(() => {
+          setMessage("");
+        }, 3000);
       } else {
         setError(data.ResponseDescription || "Payment failed. Please try again.");
       }
     } catch (err) {
       console.error("STK Push error:", err.response?.data || err.message);
       setError("⚠️ Something went wrong. Please check the console for details.");
+      setMessage("");
     } finally {
       setLoading(false);
     }
@@ -70,13 +71,8 @@ const Checkout = () => {
           disabled={loading}
         />
 
-        {error && (
-          <div className="text-red-600 font-medium text-sm">{error}</div>
-        )}
-
-        {success && (
-          <div className="text-green-700 font-medium text-sm">{success}</div>
-        )}
+        {error && <div className="text-red-600 font-medium text-sm">{error}</div>}
+        {message && <div className="text-green-700 font-medium text-sm whitespace-pre-line">{message}</div>}
 
         <div className="text-xl font-semibold">Total: KES {totalAmount}</div>
 
@@ -95,19 +91,8 @@ const Checkout = () => {
               fill="none"
               viewBox="0 0 24 24"
             >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"
-              ></path>
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"></path>
             </svg>
           )}
           {loading ? "Processing..." : "Pay Now"}
