@@ -1,51 +1,92 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
+import axios from "axios";
 
 const Checkout = () => {
-  const { cart, clearCart } = useContext(CartContext);
+  const { cart, clearCart, totalAmount } = useContext(CartContext);
   const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // For inline error messages
+  const [success, setSuccess] = useState(""); // For success message
 
-  const handlePayNow = () => {
+  const handlePayNow = async () => {
+    setError("");
+    setSuccess("");
+
     if (cart.length === 0) {
-      alert("Your cart is empty!");
+      setError("Your cart is empty!");
       return;
     }
 
-    if (!phone.match(/^07\d{8}$/)) {
-      alert("Please enter a valid phone number!");
+    // Remove non-digit characters
+    const cleanPhone = phone.replace(/\D/g, "");
+
+    if (!/^254\d{9}$/.test(cleanPhone)) {
+      setError("Please enter a valid Kenyan phone number starting with 254.");
       return;
     }
 
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/mpesa/stkpush/",
+        {
+          phone: cleanPhone,
+          amount: totalAmount,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      const data = response.data;
+      console.log("STK Push response:", data);
+
+      if (data.ResponseCode === "0") {
+        setSuccess("✅ STK Push initiated! Check your phone for the payment prompt.");
+        clearCart();
+        setPhone("");
+      } else {
+        setError(data.ResponseDescription || "Payment failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("STK Push error:", err.response?.data || err.message);
+      setError("⚠️ Something went wrong. Please check the console for details.");
+    } finally {
       setLoading(false);
-      alert(`Payment Successful! Confirmation sent to ${phone}`);
-      clearCart();
-      setPhone("");
-    }, 2000);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
-      <div className="max-w-md w-full text-center flex flex-col gap-6">
-        <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+    <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4 bg-[#faf9f6]">
+      <div className="max-w-md w-full text-center flex flex-col gap-6 bg-white p-8 rounded shadow">
+        <h1 className="text-3xl font-bold mb-6 text-green-700">Checkout</h1>
 
         <input
           type="tel"
-          placeholder="Enter your phone number"
+          placeholder="Enter your phone number (254XXXXXXXXX)"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           className="px-4 py-2 rounded border border-gray-300 text-center focus:outline-none focus:ring-2 focus:ring-green-600"
           disabled={loading}
         />
 
+        {error && (
+          <div className="text-red-600 font-medium text-sm">{error}</div>
+        )}
+
+        {success && (
+          <div className="text-green-700 font-medium text-sm">{success}</div>
+        )}
+
+        <div className="text-xl font-semibold">Total: KES {totalAmount}</div>
+
         <button
           onClick={handlePayNow}
-          className={`bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition flex items-center justify-center gap-2 ${
+          disabled={loading}
+          className={`bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-2 ${
             loading ? "cursor-not-allowed opacity-70" : ""
           }`}
-          disabled={loading}
+          aria-busy={loading}
         >
           {loading && (
             <svg
