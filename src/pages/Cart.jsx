@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 const Cart = () => {
-  const { cart, removeFromCart, updateQuantity, totalAmount } = useContext(CartContext);
+  const { cart, removeFromCart, totalAmount } = useContext(CartContext);
   const navigate = useNavigate();
 
   if (cart.length === 0) {
@@ -21,13 +21,24 @@ const Cart = () => {
     );
   }
 
+  // Deduplicate cart items by ID
+  const uniqueCartItems = cart.reduce((acc, current) => {
+    const existing = acc.find(item => item.id === current.id);
+    if (existing) {
+      existing.quantity += current.quantity;
+    } else {
+      acc.push({ ...current });
+    }
+    return acc;
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#faf9f6] py-10">
       <div className="max-w-5xl mx-auto px-6 flex flex-col gap-8">
         <h1 className="text-4xl font-extrabold text-green-700">Your Cart</h1>
 
         <div className="flex flex-col gap-6">
-          {cart.map((item) => (
+          {uniqueCartItems.map((item) => (
             <div
               key={item.id}
               className="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition"
@@ -47,22 +58,9 @@ const Cart = () => {
               </div>
 
               <div className="flex items-center gap-4 mt-4 md:mt-0">
-                <div className="flex items-center border rounded">
-                  <button
-                    onClick={() =>
-                      updateQuantity(item.id, Math.max(item.quantity - 1, 1))
-                    }
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 transition"
-                  >
-                    -
-                  </button>
-                  <span className="px-4">{item.quantity}</span>
-                  <button
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 transition"
-                  >
-                    +
-                  </button>
+                {/* Display quantity only */}
+                <div className="px-4 py-2 border rounded bg-gray-100">
+                  Quantity: {item.quantity}
                 </div>
 
                 <button
