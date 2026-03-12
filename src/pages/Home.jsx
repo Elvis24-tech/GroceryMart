@@ -3,7 +3,6 @@ import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
 
 const Home = () => {
-
   const categories = [
     {title:"Fruits", image:"/images/fruits.png"},
     {title:"Vegetables", image:"/images/vegetables.png"},
@@ -20,33 +19,29 @@ const Home = () => {
 
   return (
     <div>
-
       <Hero />
 
-      <div className="p-10">
-
-        <h2 className="text-2xl font-bold mb-6">
+      <div className="p-4 md:p-10">
+        <h2 className="text-xl md:text-2xl font-bold mb-6">
           Categories
         </h2>
 
-        <div className="grid grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 mb-10">
           {categories.map((c,i)=>(
             <CategoryCard key={i} {...c}/>
           ))}
         </div>
 
-        <h2 className="text-2xl font-bold mb-6">
+        <h2 className="text-xl md:text-2xl font-bold mb-6">
           Popular Products
         </h2>
 
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
           {products.map((p)=>(
             <ProductCard key={p.id} product={p}/>
           ))}
         </div>
-
       </div>
-
     </div>
   );
 };
