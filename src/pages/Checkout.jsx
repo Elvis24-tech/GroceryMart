@@ -1,13 +1,16 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import axios from "axios";
 
 const Checkout = () => {
   const { cart, clearCart, totalAmount } = useContext(CartContext);
+  const navigate = useNavigate();
+
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); 
-  const [message, setMessage] = useState(""); 
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const handlePayNow = async () => {
     setError("");
@@ -40,11 +43,13 @@ const Checkout = () => {
 
       if (data.ResponseCode === "0") {
         setMessage(
-          `✅ STK Push sent! Please approve payment on your phone to complete the transaction.\nTotal: KES ${totalAmount}`
+          `Please approve payment on your phone to complete the transaction,\nTotal: KES ${totalAmount}`
         );
+
         setTimeout(() => {
-          setMessage("");
-        }, 3000);
+          clearCart();
+          navigate("/");
+        }, 9000);
       } else {
         setError(data.ResponseDescription || "Payment failed. Please try again.");
       }
@@ -72,7 +77,11 @@ const Checkout = () => {
         />
 
         {error && <div className="text-red-600 font-medium text-sm">{error}</div>}
-        {message && <div className="text-green-700 font-medium text-sm whitespace-pre-line">{message}</div>}
+        {message && (
+          <div className="text-green-700 font-medium text-sm whitespace-pre-line">
+            {message}
+          </div>
+        )}
 
         <div className="text-xl font-semibold">Total: KES {totalAmount}</div>
 
@@ -91,8 +100,19 @@ const Checkout = () => {
               fill="none"
               viewBox="0 0 24 24"
             >
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"></path>
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"
+              ></path>
             </svg>
           )}
           {loading ? "Processing..." : "Pay Now"}
