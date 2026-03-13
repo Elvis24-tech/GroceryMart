@@ -1,16 +1,177 @@
-# React + Vite
+GroceryMart Frontend 🛒
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React-based grocery e-commerce frontend that allows users to browse products, add items to a cart, and complete payments using M-Pesa STK Push.
 
-Currently, two official plugins are available:
+The application communicates with a Django REST backend hosted on Render to process payments and manage transactions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live Demo
 
-## React Compiler
+Frontend:
+https://grocerymart-delta.vercel.app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Backend API:
+https://mpesa-backend-1rkj.onrender.com
 
-## Expanding the ESLint configuration
+Features
+Product Browsing
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+View available grocery products
+
+Responsive product cards
+
+Clean mobile-friendly layout
+
+Shopping Cart
+
+Add products to cart
+
+Remove items from cart
+
+Real-time cart total calculation
+
+M-Pesa Payment Integration
+
+Secure STK Push payment
+
+Enter Safaricom phone number
+
+Payment prompt sent directly to user's phone
+
+Checkout Flow
+
+Add products to cart
+
+Proceed to checkout
+
+Enter phone number
+
+Receive M-Pesa payment prompt
+
+Approve payment on phone
+
+Tech Stack
+
+Frontend:
+
+React
+
+Vite
+
+Tailwind CSS
+
+Axios
+
+Deployment:
+
+Vercel
+
+Backend API:
+
+Django REST Framework
+
+Hosted on Render
+
+Payments:
+
+Safaricom Daraja API (M-Pesa STK Push)
+
+Project Structure
+src
+ ├── components
+ │    ├── Navbar.jsx
+ │    ├── ProductCard.jsx
+ │
+ ├── pages
+ │    ├── Home.jsx
+ │    ├── Cart.jsx
+ │    ├── Checkout.jsx
+ │
+ ├── context
+ │    └── CartContext.jsx
+ │
+ ├── App.jsx
+ └── main.jsx
+Installation
+
+Clone the repository
+
+git clone https://github.com/Elvis24-tech/GroceryMart
+
+Go into the project folder
+
+cd grocerymart-frontend
+
+Install dependencies
+
+npm install
+
+Run development server
+
+npm run dev
+API Integration
+
+The frontend communicates with the backend using the following endpoint:
+
+POST /api/mpesa/stkpush/
+
+Example request:
+
+{
+  "phone": "254712345678",
+  "amount": 500
+}
+
+This triggers the M-Pesa STK Push payment request.
+
+Mobile Optimization
+
+The interface is optimized for mobile users since most M-Pesa transactions occur on smartphones.
+
+Features include:
+
+Responsive layout
+
+Touch-friendly buttons
+
+Full-width checkout inputs
+
+Fast loading pages
+
+Future Improvements
+
+Payment success page
+
+Order history
+
+User authentication
+
+Admin dashboard
+
+Real product inventory system
+
+Author
+
+Elvis Muasya
+Fullstack Developer
+
+Tech Stack:
+
+HTML
+
+CSS
+
+JavaScript
+
+React
+
+Tailwind CSS
+
+Python
+
+Django
+
+Flask
+
+License
+
+This project is for educational and portfolio purposes.
