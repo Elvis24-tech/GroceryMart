@@ -33,9 +33,14 @@ const Checkout = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/mpesa/stkpush/",
-        { phone: cleanPhone, amount: totalAmount },
-        { headers: { "Content-Type": "application/json" } }
+        "https://mpesa-backend-1rkj.onrender.com/api/mpesa/stkpush/",
+        {
+          phone: cleanPhone,
+          amount: totalAmount,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
 
       const data = response.data;
@@ -43,7 +48,7 @@ const Checkout = () => {
 
       if (data.ResponseCode === "0") {
         setMessage(
-          `Please approve payment on your phone to complete the transaction,\nTotal: KES ${totalAmount}`
+          `Please approve payment on your phone.\nTotal: KES ${totalAmount}`
         );
 
         setTimeout(() => {
@@ -51,11 +56,13 @@ const Checkout = () => {
           navigate("/");
         }, 9000);
       } else {
-        setError(data.ResponseDescription || "Payment failed. Please try again.");
+        setError(
+          data.ResponseDescription || "Payment failed. Please try again."
+        );
       }
     } catch (err) {
       console.error("STK Push error:", err.response?.data || err.message);
-      setError("⚠️ Something went wrong. Please check the console for details.");
+      setError("⚠️ Something went wrong. Please try again.");
       setMessage("");
     } finally {
       setLoading(false);
@@ -69,52 +76,32 @@ const Checkout = () => {
 
         <input
           type="tel"
-          placeholder="Enter your phone number (254XXXXXXXXX)"
+          placeholder="Enter phone number (254XXXXXXXXX)"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           className="px-4 py-2 rounded border border-gray-300 text-center focus:outline-none focus:ring-2 focus:ring-green-600"
           disabled={loading}
         />
 
-        {error && <div className="text-red-600 font-medium text-sm">{error}</div>}
+        {error && <div className="text-red-600 text-sm">{error}</div>}
+
         {message && (
-          <div className="text-green-700 font-medium text-sm whitespace-pre-line">
+          <div className="text-green-700 text-sm whitespace-pre-line">
             {message}
           </div>
         )}
 
-        <div className="text-xl font-semibold">Total: KES {totalAmount}</div>
+        <div className="text-xl font-semibold">
+          Total: KES {totalAmount}
+        </div>
 
         <button
           onClick={handlePayNow}
           disabled={loading}
-          className={`bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-2 ${
-            loading ? "cursor-not-allowed opacity-70" : ""
+          className={`bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition ${
+            loading ? "opacity-70 cursor-not-allowed" : ""
           }`}
-          aria-busy={loading}
         >
-          {loading && (
-            <svg
-              className="animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"
-              ></path>
-            </svg>
-          )}
           {loading ? "Processing..." : "Pay Now"}
         </button>
       </div>
