@@ -1,177 +1,145 @@
-GroceryMart Frontend 🛒
+# 🛒 GroceryMart Frontend
+A modern **grocery e-commerce frontend** built with **React, Vite, and Tailwind CSS**.  
+Users can browse grocery products, manage a shopping cart, and complete payments using **M-Pesa STK Push**.
 
-A modern React-based grocery e-commerce frontend that allows users to browse products, add items to a cart, and complete payments using M-Pesa STK Push.
+The frontend connects to a **Django REST API backend** deployed on Render, which handles payments via the **Safaricom Daraja API**.
 
-The application communicates with a Django REST backend hosted on Render to process payments and manage transactions.
+---
 
-Live Demo
+##  Live Demo
 
-Frontend:
+**Frontend:**  
 https://grocerymart-delta.vercel.app
 
-Backend API:
+**Backend API:**  
 https://mpesa-backend-1rkj.onrender.com
+https://mpesa-backend-1rkj.onrender.com/api/mpesa/stkpush/
+https://mpesa-backend-1rkj.onrender.com/api/mpesa/callback/
 
-Features
-Product Browsing
+---
 
-View available grocery products
+## 🚀 Features
 
-Responsive product cards
+### 🛍 Product Browsing
+- View available grocery products
+- Responsive product cards
+- Modern and clean UI
 
-Clean mobile-friendly layout
+### 🛒 Shopping Cart
+- Add products to cart
+- Remove products from cart
+- Real-time total calculation
 
-Shopping Cart
+### 📱 M-Pesa Payment Integration
+- Secure **STK Push payments**
+- Enter Safaricom phone number
+- Payment prompt sent directly to the user's phone
 
-Add products to cart
+### 💳 Checkout Flow
+1. Add items to cart  
+2. Proceed to checkout  
+3. Enter Safaricom phone number  
+4. Receive **M-Pesa STK Push prompt**  
+5. Approve payment on your phone  
 
-Remove items from cart
+---
 
-Real-time cart total calculation
+## 🧰Tech Stack
 
-M-Pesa Payment Integration
+**Frontend:**  
+- React  
+- Vite  
+- Tailwind CSS  
+- Axios  
 
-Secure STK Push payment
+**Backend:**  
+- Django  
+- Django REST Framework  
 
-Enter Safaricom phone number
+**Payments:**  
+- Safaricom Daraja API (M-Pesa STK Push)  
 
-Payment prompt sent directly to user's phone
+**Deployment:**  
+- Frontend → Vercel  
+- Backend → Render  
 
-Checkout Flow
+---
 
-Add products to cart
+##  Project Structure
 
-Proceed to checkout
+grocerymart-frontend/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── CategoryCard.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Hero.jsx
+│   │   ├── Navbar.jsx
+│   │   └── ProductCard.jsx
+│   ├── context/
+│   │   └── CartContext.jsx
+│   ├── pages/
+│   │   ├── Cart.jsx
+│   │   ├── Checkout.jsx
+│   │   ├── Home.jsx
+│   │   ├── ProductDetails.jsx
+│   │   └── Products.jsx
+│   ├── services/
+│   │   └── api.js
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+└── vite.config.js
 
-Enter phone number
-
-Receive M-Pesa payment prompt
-
-Approve payment on phone
-
-Tech Stack
-
-Frontend:
-
-React
-
-Vite
-
-Tailwind CSS
-
-Axios
-
-Deployment:
-
-Vercel
-
-Backend API:
-
-Django REST Framework
-
-Hosted on Render
-
-Payments:
-
-Safaricom Daraja API (M-Pesa STK Push)
-
-Project Structure
-src
- ├── components
- │    ├── Navbar.jsx
- │    ├── ProductCard.jsx
- │
- ├── pages
- │    ├── Home.jsx
- │    ├── Cart.jsx
- │    ├── Checkout.jsx
- │
- ├── context
- │    └── CartContext.jsx
- │
- ├── App.jsx
- └── main.jsx
-Installation
-
+# Installation
 Clone the repository
-
-git clone https://github.com/Elvis24-tech/GroceryMart
-
-Go into the project folder
-
-cd grocerymart-frontend
-
-Install dependencies
-
-npm install
-
-Run development server
-
+- git clone https://github.com/Elvis24-tech/GroceryMart
+- cd grocerymart-frontend
+- Install dependencies
+- Run development server:
 npm run dev
-API Integration
+
+# 🔗 API Integration
 
 The frontend communicates with the backend using the following endpoint:
 
 POST /api/mpesa/stkpush/
-
-Example request:
-
+Example Request
 {
   "phone": "254712345678",
   "amount": 500
 }
 
-This triggers the M-Pesa STK Push payment request.
+This triggers an M-Pesa STK Push payment prompt on the user's phone.
 
-Mobile Optimization
+# Mobile Optimization
+- The frontend is fully responsive and optimized for mobile users:
+- Responsive layouts for small screens
+- Touch-friendly buttons
+- Full-width checkout inputs
+- Optimized spacing and fonts for readability
 
-The interface is optimized for mobile users since most M-Pesa transactions occur on smartphones.
+# Future Improvements
+- Payment success page
+- Order history
+- User authentication
+- Admin dashboard
+- Product inventory system
+- Real-time payment status tracking
 
-Features include:
-
-Responsive layout
-
-Touch-friendly buttons
-
-Full-width checkout inputs
-
-Fast loading pages
-
-Future Improvements
-
-Payment success page
-
-Order history
-
-User authentication
-
-Admin dashboard
-
-Real product inventory system
-
-Author
-
-Elvis Muasya
+# Author
+- Elvis Muasya
 Fullstack Developer
 
-Tech Stack:
+Skills: HTML, CSS, JavaScript, React, Tailwind CSS, Python, Django, Flask
 
-HTML
-
-CSS
-
-JavaScript
-
-React
-
-Tailwind CSS
-
-Python
-
-Django
-
-Flask
-
-License
-
+# License
 This project is for educational and portfolio purposes.
