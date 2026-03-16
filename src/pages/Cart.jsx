@@ -3,14 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 const Cart = () => {
-  const { cart, removeFromCart, totalAmount } = useContext(CartContext);
+  const {
+    cart,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+    totalAmount,
+  } = useContext(CartContext);
+
   const navigate = useNavigate();
 
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-[#faf9f6] flex flex-col items-center justify-center p-10">
-        <h1 className="text-4xl font-extrabold mb-6 text-green-700">Your Cart</h1>
+        <h1 className="text-4xl font-extrabold mb-6 text-green-700">
+          Your Cart
+        </h1>
+
         <p className="mb-6 text-gray-600">Your cart is currently empty.</p>
+
         <button
           onClick={() => navigate("/")}
           className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
@@ -21,70 +32,88 @@ const Cart = () => {
     );
   }
 
-  // Deduplicate cart items by ID
-  const uniqueCartItems = cart.reduce((acc, current) => {
-    const existing = acc.find(item => item.id === current.id);
-    if (existing) {
-      existing.quantity += current.quantity;
-    } else {
-      acc.push({ ...current });
-    }
-    return acc;
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#faf9f6] py-10">
       <div className="max-w-5xl mx-auto px-6 flex flex-col gap-8">
-        <h1 className="text-4xl font-extrabold text-green-700">Your Cart</h1>
+
+        <h1 className="text-4xl font-extrabold text-green-700">
+          Your Cart
+        </h1>
 
         <div className="flex flex-col gap-6">
-          {uniqueCartItems.map((item) => (
+          {cart.map((item) => (
             <div
               key={item.id}
               className="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition"
             >
+
               <div className="flex items-center gap-4">
                 <img
                   src={item.image}
                   alt={item.name}
                   className="h-24 w-24 md:h-20 md:w-20 object-cover rounded-lg"
                 />
+
                 <div>
                   <h2 className="font-bold text-lg">{item.name}</h2>
+
                   <p className="text-gray-600">
-                    KES {item.price} x {item.quantity} = KES {item.price * item.quantity}
+                    KES {item.price} × {item.quantity} =
+                    <span className="font-semibold ml-1">
+                      KES {item.price * item.quantity}
+                    </span>
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 mt-4 md:mt-0">
-                {/* Display quantity only */}
-                <div className="px-4 py-2 border rounded bg-gray-100">
-                  Quantity: {item.quantity}
-                </div>
+              <div className="flex items-center gap-3 mt-4 md:mt-0">
+
+                <button
+                  onClick={() => decreaseQuantity(item.id)}
+                  className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+                >
+                  -
+                </button>
+
+                <span className="font-semibold px-2">
+                  {item.quantity}
+                </span>
+
+                <button
+                  onClick={() => increaseQuantity(item.id)}
+                  className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+                >
+                  +
+                </button>
 
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition ml-3"
                 >
                   Remove
                 </button>
+
               </div>
+
             </div>
           ))}
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center mt-8">
+
           <h2 className="text-2xl font-bold text-gray-800">
             Total: KES {totalAmount}
           </h2>
+
           <button
             onClick={() => navigate("/checkout")}
             className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition mt-4 md:mt-0"
           >
             Proceed to Checkout
           </button>
+
         </div>
+
       </div>
     </div>
   );

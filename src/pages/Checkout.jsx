@@ -50,7 +50,7 @@ const Checkout = () => {
         setTimeout(() => {
           clearCart();
           navigate("/");
-        }, 9000);
+        }, 15000);
       } else {
         setError(data.ResponseDescription || "Payment failed. Please try again.");
       }
@@ -70,8 +70,6 @@ const Checkout = () => {
         <h1 className="text-2xl sm:text-3xl font-bold text-green-700">
           Checkout
         </h1>
-
-        {/* Cart summary */}
         {cart.length > 0 && (
           <div className="text-left border border-gray-100 rounded-lg p-3 bg-gray-50">
             <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Order Summary</p>
