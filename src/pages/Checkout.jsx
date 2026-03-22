@@ -50,7 +50,7 @@ const Checkout = () => {
         setTimeout(() => {
           clearCart();
           navigate("/");
-        }, 15000);
+        }, 5000);
       } else {
         setError(data.ResponseDescription || "Payment failed. Please try again.");
       }
